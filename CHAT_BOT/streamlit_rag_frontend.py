@@ -1,8 +1,9 @@
-import uuid
+import uuid # Used to generate a unique ID for each chat thread.
 
 import streamlit as st
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
+# This line imports objects and functions from your langraph_rag_backend.py file so they can be used in the Streamlit frontend.
 from langraph_rag_backend import (
     chatbot,
     ingest_pdf,
@@ -11,29 +12,30 @@ from langraph_rag_backend import (
 )
 
 
-# =========================== Utilities ===========================
+# Calls uuid.uuid4() to generate a random unique identifier (UUID Version 4).
 def generate_thread_id():
     return uuid.uuid4()
 
 
 def reset_chat():
-    thread_id = generate_thread_id()
-    st.session_state["thread_id"] = thread_id
-    add_thread(thread_id)
-    st.session_state["message_history"] = []
+    thread_id = generate_thread_id() # calling the function to generate the thread id 
+    st.session_state["thread_id"] = thread_id # Saves the new thread ID in Streamlit's session state.
+    add_thread(thread_id) # calling the add_thread function
+    st.session_state["message_history"] = [] # Clears all messages currently displayed in the chat window.
+                                             # Starts with an empty conversation.
 
-
+# adding the thread_id in session state Chat threads
 def add_thread(thread_id):
     if thread_id not in st.session_state["chat_threads"]:
         st.session_state["chat_threads"].append(thread_id)
 
-
+# This function adds a new chat thread to the list of chat threads, but only if it doesn't already exist.
 def load_conversation(thread_id):
     state = chatbot.get_state(config={"configurable": {"thread_id": thread_id}})
     return state.values.get("messages", [])
 
 
-# ======================= Session Initialization ===================
+# Session Initialization
 if "message_history" not in st.session_state:
     st.session_state["message_history"] = []
 
@@ -48,7 +50,7 @@ if "ingested_docs" not in st.session_state:
 
 add_thread(st.session_state["thread_id"])
 
-thread_key = str(st.session_state["thread_id"])
+thread_key = str(st.session_state["thread_id"]) # Gets the current thread ID from session_state.(Converts it to a string because it will be used as a dictionary key.)
 thread_docs = st.session_state["ingested_docs"].setdefault(thread_key, {})
 threads = st.session_state["chat_threads"][::-1]
 selected_thread = None
