@@ -2,6 +2,8 @@
 
 A production-style **AI chatbot** built using **LangGraph**, **LangChain**, and **Streamlit** that combines **Retrieval-Augmented Generation (RAG)** with multiple intelligent tools.
 
+🚀 **Live Demo:** https://anshu908-chat-bot.hf.space
+
 Unlike a traditional chatbot, this application can:
 
 * 📄 Answer questions from uploaded PDF documents
@@ -13,11 +15,21 @@ Unlike a traditional chatbot, this application can:
 
 ---
 
+# 🚀 Live Demo
+
+🌐 **Try the application here:**
+
+**https://anshu908-chat-bot.hf.space**
+
+No installation required—simply open the application, upload a PDF (optional), and start chatting.
+
+---
+
 # 📸 Demo
 
 > Add screenshots or a GIF here
 
-```
+```text
 /images
     ├── home.png
     ├── pdf-upload.png
@@ -64,7 +76,7 @@ Conversation history is stored using:
 * LangGraph Checkpointer
 * SQLite Database
 
-This allows:
+This allows users to:
 
 * Resume previous conversations
 * Switch between chats
@@ -78,15 +90,15 @@ Every conversation maintains its own independent document index.
 
 Example:
 
-Thread A
+**Thread A**
 
-```
+```text
 Machine Learning.pdf
 ```
 
-Thread B
+**Thread B**
 
-```
+```text
 Finance Report.pdf
 ```
 
@@ -118,7 +130,7 @@ The UI includes:
 
 # 🏗️ Architecture
 
-```
+```text
                 User
                   │
                   ▼
@@ -185,7 +197,7 @@ The UI includes:
 
 # 📂 Project Structure
 
-```
+```text
 project/
 │
 ├── streamlit_rag_frontend.py
@@ -200,7 +212,7 @@ project/
 
 # ⚙️ Installation
 
-## 1. Clone the repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/your-repository.git
@@ -210,9 +222,9 @@ cd your-repository
 
 ---
 
-## 2. Create a virtual environment
+## 2. Create a Virtual Environment
 
-Windows
+### Windows
 
 ```bash
 python -m venv venv
@@ -220,7 +232,7 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-Linux / macOS
+### Linux / macOS
 
 ```bash
 python3 -m venv venv
@@ -230,7 +242,7 @@ source venv/bin/activate
 
 ---
 
-## 3. Install dependencies
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -238,7 +250,7 @@ pip install -r requirements.txt
 
 ---
 
-## 4. Create a `.env` file
+## 4. Create a `.env` File
 
 ```env
 GROQ_API_KEY=your_groq_api_key
@@ -246,112 +258,124 @@ GROQ_API_KEY=your_groq_api_key
 
 ---
 
-## 5. Run the application
+# ▶️ Running the Application
+
+## Option 1: Use the Live Demo
+
+Open your browser and visit:
+
+**https://anshu908-chat-bot.hf.space**
+
+---
+
+## Option 2: Run Locally
 
 ```bash
 streamlit run streamlit_rag_frontend.py
 ```
 
+The application will launch on your local Streamlit server.
+
 ---
 
 # 📖 How It Works
 
-## Step 1
+### Step 1
 
-User uploads a PDF.
-
-↓
-
-## Step 2
-
-The backend
-
-* loads the PDF
-* splits it into chunks
-* generates embeddings
-* stores them in FAISS
+The user uploads a PDF (optional).
 
 ↓
 
-## Step 3
+### Step 2
 
-User asks a question.
+The backend:
+
+* Loads the PDF
+* Splits it into semantic chunks
+* Generates embeddings
+* Stores them inside a FAISS vector database
 
 ↓
 
-## Step 4
+### Step 3
+
+The user submits a question.
+
+↓
+
+### Step 4
 
 LangGraph sends the conversation to the LLM.
 
 ↓
 
-## Step 5
+### Step 5
 
-The LLM decides whether to:
+The LLM automatically decides whether to:
 
-* answer directly
-* search the web
-* retrieve from PDF
-* perform calculations
-* fetch stock prices
-
-↓
-
-## Step 6
-
-Tool results are returned to the LLM.
+* Answer directly
+* Search the web
+* Retrieve information from the uploaded PDF
+* Perform mathematical calculations
+* Fetch live stock prices
 
 ↓
 
-## Step 7
+### Step 6
 
-The final answer is streamed back to the UI.
+The selected tool executes and returns its result.
+
+↓
+
+### Step 7
+
+The LLM synthesizes the final response and streams it back to the Streamlit interface.
 
 ---
 
 # 🧠 LangGraph Workflow
 
-```
+```text
                 START
                    │
                    ▼
              Chat Node (LLM)
                    │
-         Tool Needed?
-          │             │
-          │No           │Yes
-          ▼             ▼
-        Finish      Tool Node
-                         │
-                         ▼
-                  Execute Tool
-                         │
-                         ▼
-                    Chat Node
-                         │
-                         ▼
-                       END
+          Tool Needed?
+           │           │
+        No │           │ Yes
+           ▼           ▼
+       Final      Execute Tool
+      Response         │
+                       ▼
+                  Tool Result
+                       │
+                       ▼
+                 Chat Node (LLM)
+                       │
+                       ▼
+                      END
 ```
 
 ---
 
 # 🔧 Implemented Tools
 
-## 📄 RAG Tool
+## 📄 PDF Retrieval Tool (RAG)
 
-Retrieves relevant chunks from the uploaded PDF using semantic similarity search.
+Retrieves the most relevant document chunks using semantic similarity search over FAISS.
 
 ---
 
-## 🔍 Web Search Tool
+## 🔍 DuckDuckGo Web Search
 
-Uses DuckDuckGo Search for retrieving external information.
+Retrieves external information when knowledge is unavailable in the uploaded documents.
 
 ---
 
 ## 📈 Stock Price Tool
 
-Fetches the latest stock information using the Alpha Vantage API.
+Fetches live stock prices using the Alpha Vantage API.
 
 ---
 
@@ -374,7 +398,7 @@ The application uses SQLite through LangGraph's checkpointer to persist:
 * Thread IDs
 * Conversation state
 
-Each chat behaves independently, enabling multiple ongoing conversations without losing context.
+Each conversation behaves independently, enabling multiple ongoing chats without losing context.
 
 ---
 
@@ -399,7 +423,7 @@ Each chat behaves independently, enabling multiple ongoing conversations without
 
 Core dependencies include:
 
-```
+```text
 streamlit
 langgraph
 langchain
@@ -432,7 +456,7 @@ If you'd like to improve the project:
 
 # 📄 License
 
-This project is licensed under the MIT License.
+MIT License
 
 ---
 
@@ -451,6 +475,6 @@ Built using:
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-Developed as a practical demonstration of building a production-inspired **Retrieval-Augmented Generation (RAG)** chatbot with **LangGraph**, integrating document retrieval, tool calling, persistent conversation memory, and a modern Streamlit interface.
+Developed as a production-style AI chatbot demonstrating **LangGraph**, **Retrieval-Augmented Generation (RAG)**, intelligent tool calling, persistent conversation memory, and a modern Streamlit interface. The project showcases how a single conversational AI system can seamlessly combine document understanding, web search, live stock data retrieval, mathematical reasoning, and multi-thread chat persistence within an extensible agentic workflow.
